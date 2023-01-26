@@ -1,6 +1,6 @@
-import { Manager } from './lib/Manager.js';
-import { Engineer } from './lib/Engineer.js';
-import { Intern } from './lib/Intern.js';
+import Manager from './lib/Manager.js';
+import Engineer from './lib/Engineer.js';
+import Intern from './lib/Intern.js';
 
 import inquirer from 'inquirer';
 import path from 'path';
