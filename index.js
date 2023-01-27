@@ -15,6 +15,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 import { render } from './src/page-template.js';
 
+let employees = [];
 
 //const makeInputQuestion = (name, message) => { return { type: 'input', name: name, message: message }; }
 
@@ -66,4 +67,41 @@ function makeQuestions(role = 'Manager') {
         choices: ['Add an engineer', 'Add an intern', 'Finish building the team']
     });
     return prompts;
+}
+
+async function addEmployee(role = 'Manager') {
+    let questions = makeQuestions(role);
+
+    const answers = await inquirer
+        .prompt(questions)
+        .then(data => {
+            const { name, id, email, office, github, school, menu } = data;
+            // push a new class to the employees array based on their role
+            switch (role) {
+                case 'Manager':
+                    employees.push(new Manager(name, id, email, office));
+                    break;
+                case 'Engineer':
+                    employees.push(new Engineer(name, id, email, github));
+                    break;
+                case 'Intern':
+                    employees.push(new Intern(name, id, email, school));
+                    break;
+            }
+            return menu;
+        })
+        .then(async menu => {
+            // check menu option, either recurse to add an new employee or return
+            switch (menu) {
+                case 'Finish building the team':
+                    return employees;
+                    break;
+                case 'Add an engineer':
+                    await addEmployee('Engineer');
+                    break;
+                case 'Add an intern':
+                    await addEmployee('Intern');
+                    break;
+            }
+        });
 }
