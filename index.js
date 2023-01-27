@@ -106,7 +106,18 @@ async function addEmployee(role = 'Manager') {
 // function to write team.html file
 function writeToFile(data) {
     (async () => {
-        await fs.writeFile(outputPath, data, (err) => {
+        // create output directory if it doesn't exist
+        try {
+            if (!fs.existsSync(OUTPUT_DIR)) {
+                fs.mkdirSync(OUTPUT_DIR);
+                console.log(`Successfully created directory ${OUTPUT_DIR}`);
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+        // now write the file
+        fs.writeFile(outputPath, data, (err) => {
             if (err) console.error(err);
         })
     })();
