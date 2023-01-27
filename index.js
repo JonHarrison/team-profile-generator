@@ -24,17 +24,24 @@ function makeQuestions(role = 'Manager') {
         {
             type: 'input',
             name: 'name',
-            message: `What is the ${role}'s name?`
+            message: `What is the ${role}'s name?`,
+            validate: name => /[a-zA-Z]/gi.test(name), // must be a letter
         },
         {
             type: 'input',
             name: 'id',
-            message: "What is their employee ID?"
+            message: "What is their employee ID?",
+            validate: id => /[0-9]/gi.test(id), // must be a number
         },
         {
             type: 'input',
             name: 'email',
-            message: "What is their email address?"
+            message: "What is their email address?",
+            validate: email => 
+            {
+                // Regex mail check (return true if valid mail)
+                return /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(email);
+            }
         }
     ];
     switch (role) {
@@ -42,21 +49,24 @@ function makeQuestions(role = 'Manager') {
             prompts.push({
                 type: 'input',
                 name: 'office',
-                message: "What is their office number?"
+                message: "What is their office number?",
+                validate: val => /[0-9]/gi.test(val), // must be a number
             });
             break;
         case 'Engineer':
             prompts.push({
                 type: 'input',
                 name: 'github',
-                message: "What is their GitHub username?"
+                message: "What is their GitHub username?",
+                validate: val => /[a-zA-Z0-9]/gi.test(val), // must be a letter or number
             });
             break;
         case 'Intern':
             prompts.push({
                 type: 'input',
                 name: 'school',
-                message: "What is their school?"
+                message: "What is their school?",
+                validate: val => /[a-zA-Z0-9]/gi.test(val), // must be a letter or number
             });
             break;
     }
