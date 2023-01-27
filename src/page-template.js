@@ -93,22 +93,50 @@ const render = (team) => {
     <title>My Team</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-	.jumbotron {
-		background-color: rgb(232,71,86);
-		color: white;
-	}
-	.card {
-		margin: 10px;
-		background-color: rgb(246,247,249);
-		box-shadow: 5px 5px 10px grey;
-	}
-	.card-header {
-		background-color: rgb(0,119,247);
-		color: white;
-	}
-	</style>
-    <script src="https://kit.fontawesome.com/c502137733.js"></script>
+        <style>
+        :root {
+            --header-font: 'Brush Script MT', cursive;
+            --header-bg: rgba(232,71,86, 0.6);
+            --card-font: 'Garamond', sans-serif;
+            --card-bg: rgb(246,247,249);
+            --card-header-bg: rgb(0,119,247);
+            --mug-fg: red;
+            --glasses-fg: yellow;
+            --graduate-fg: purple;
+        }
+        .jumbotron {
+            background-color: var(--header-bg);
+            color: white;
+            font-weight: 800;
+            font-family: var(--header-font);
+        }
+        .card {
+            margin: 0.5em;
+            background-color: var(--card-bg);
+            box-shadow: 5px 5px 10px grey;
+            min-width: 30%;
+            height: 100%;
+            font-family: var(--card-font);
+        }
+        .card-header {
+            background-color: var(--card-header-bg);
+            color: white;
+            text-align: center;
+        }
+        .card-body {
+            font-size: 0.8em;
+        }
+        .fa-mug-hot {
+            color: var(--mug-fg);
+        }
+        .fa-glasses {
+            color: var(--glasses-fg);
+        }
+        .fa-user-graduate {
+            color: var(--graduate-fg);
+        }
+        </style>
+        <script src="https://kit.fontawesome.com/c502137733.js"></script>
 </head>
 
 <body>
