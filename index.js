@@ -20,6 +20,7 @@ let employees = [];
 //const makeInputQuestion = (name, message) => { return { type: 'input', name: name, message: message }; }
 
 function makeQuestions(role = 'Manager') {
+    // common questions
     let prompts = [
         {
             type: 'input',
@@ -44,6 +45,7 @@ function makeQuestions(role = 'Manager') {
             }
         }
     ];
+    // role specific questions
     switch (role) {
         case 'Manager':
             prompts.push({
@@ -70,6 +72,7 @@ function makeQuestions(role = 'Manager') {
             });
             break;
     }
+    // menu options
     prompts.push({
         type: 'list',
         name: 'menu',
