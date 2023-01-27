@@ -62,6 +62,8 @@ function makeQuestions(role = 'Manager') {
                 .addQuestion('school', 'What is their school?', val => /[a-zA-Z0-9]/gi.test(val))
                 .this();
             break;
+        default:
+            throw new error('Unknown employee role');
     }
 
     // menu options
@@ -93,6 +95,8 @@ async function addEmployee(role = 'Manager') {
                 case 'Intern':
                     employees.push(new Intern(name, id, email, school));
                     break;
+                default:
+                    throw new error('Unknown employee role');
             }
             return menu;
         })
