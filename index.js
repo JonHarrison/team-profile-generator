@@ -23,49 +23,56 @@ class Questions {
     }
     addQuestion(name, message, validate) {
         this.prompts.push({ type: 'input', name: name, message: message, validate: validate });
-        return new Questions(this.prompts);
+        return this.this(); // this
     }
     addMenu(choices) {
         this.prompts.push({ type: 'list', name: 'menu', message: 'Menu', choices: choices });
-        return new Questions(this.prompts);
+        return this.this(); // this
     }
+    this() { return this; }
     value() { return this.prompts; }
 }
 
 function makeQuestions(role = 'Manager') {
-    
+
     // common questions
     let prompts = new Questions()
+        // name - validate as a string
         .addQuestion('name', `What is the ${role}'s name?`, name => /[a-zA-Z]/gi.test(name))
+        // id - validate as a number
         .addQuestion('id', 'What is their employee ID?', id => /[0-9]/gi.test(id))
+        // email - validate as an email address
         .addQuestion('email', 'What is their email address?', email => /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(email))
-        .value();
-    
+        .this();
+
     // role specific questions
     switch (role) {
         case 'Manager':
-            prompts = new Questions(prompts)
-                .addQuestion('office', 'What is their office number?', val => /[0-9]/gi.test(val))
-                .value();
+            prompts
+                // office - validate as a string
+                .addQuestion('office', 'What is their office number?', val => /[a-zA-Z0-9]/gi.test(val))
+                .this();
             break;
         case 'Engineer':
-            prompts = new Questions(prompts)
+            prompts
+                // github - validate as a string
                 .addQuestion('github', 'What is their GitHub username?', val => /[a-zA-Z0-9]/gi.test(val))
-                .value();
+                .this();
             break;
         case 'Intern':
-            prompts = new Questions(prompts)
+            prompts
+                // school - validate as a string
                 .addQuestion('school', 'What is their school?', val => /[a-zA-Z0-9]/gi.test(val))
-                .value();
+                .this();
             break;
     }
-    
-    // menu options
-    prompts = new Questions(prompts)
-        .addMenu(['Add an engineer', 'Add an intern', 'Finish building the team'])
-        .value();
 
-    return prompts;
+    // menu options
+    prompts
+        .addMenu(['Add an engineer', 'Add an intern', 'Finish building the team'])
+        .this();
+
+    return prompts.value();
 }
 
 async function addEmployee(role = 'Manager') {
