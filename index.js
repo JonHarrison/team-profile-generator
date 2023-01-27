@@ -14,9 +14,6 @@ const __dirname = path.dirname(__filename);
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-
-let employees = [];
-
 class Questions {
     constructor(prompts = []) {
         this.prompts = prompts;
@@ -74,6 +71,9 @@ function makeQuestions(role = 'Manager') {
 
     return prompts.value();
 }
+
+// array of employee information, used for rendering HTML
+let employees = [];
 
 async function addEmployee(role = 'Manager') {
     let questions = makeQuestions(role);
