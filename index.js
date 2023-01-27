@@ -17,68 +17,54 @@ import { render } from './src/page-template.js';
 
 let employees = [];
 
-//const makeInputQuestion = (name, message) => { return { type: 'input', name: name, message: message }; }
+class Questions {
+    constructor(prompts = []) {
+        this.prompts = prompts;
+    }
+    addQuestion(name, message, validate) {
+        this.prompts.push({ type: 'input', name: name, message: message, validate: validate });
+        return new Questions(this.prompts);
+    }
+    addMenu(choices) {
+        this.prompts.push({ type: 'list', name: 'menu', message: 'Menu', choices: choices });
+        return new Questions(this.prompts);
+    }
+    value() { return this.prompts; }
+}
 
 function makeQuestions(role = 'Manager') {
+    
     // common questions
-    let prompts = [
-        {
-            type: 'input',
-            name: 'name',
-            message: `What is the ${role}'s name?`,
-            validate: name => /[a-zA-Z]/gi.test(name), // must be a letter
-        },
-        {
-            type: 'input',
-            name: 'id',
-            message: "What is their employee ID?",
-            validate: id => /[0-9]/gi.test(id), // must be a number
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: "What is their email address?",
-            validate: email => 
-            {
-                // Regex mail check (return true if valid mail)
-                return /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(email);
-            }
-        }
-    ];
+    let prompts = new Questions()
+        .addQuestion('name', `What is the ${role}'s name?`, name => /[a-zA-Z]/gi.test(name))
+        .addQuestion('id', 'What is their employee ID?', id => /[0-9]/gi.test(id))
+        .addQuestion('email', 'What is their email address?', email => /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(email))
+        .value();
+    
     // role specific questions
     switch (role) {
         case 'Manager':
-            prompts.push({
-                type: 'input',
-                name: 'office',
-                message: "What is their office number?",
-                validate: val => /[0-9]/gi.test(val), // must be a number
-            });
+            prompts = new Questions(prompts)
+                .addQuestion('office', 'What is their office number?', val => /[0-9]/gi.test(val))
+                .value();
             break;
         case 'Engineer':
-            prompts.push({
-                type: 'input',
-                name: 'github',
-                message: "What is their GitHub username?",
-                validate: val => /[a-zA-Z0-9]/gi.test(val), // must be a letter or number
-            });
+            prompts = new Questions(prompts)
+                .addQuestion('github', 'What is their GitHub username?', val => /[a-zA-Z0-9]/gi.test(val))
+                .value();
             break;
         case 'Intern':
-            prompts.push({
-                type: 'input',
-                name: 'school',
-                message: "What is their school?",
-                validate: val => /[a-zA-Z0-9]/gi.test(val), // must be a letter or number
-            });
+            prompts = new Questions(prompts)
+                .addQuestion('school', 'What is their school?', val => /[a-zA-Z0-9]/gi.test(val))
+                .value();
             break;
     }
+    
     // menu options
-    prompts.push({
-        type: 'list',
-        name: 'menu',
-        message: 'menu',
-        choices: ['Add an engineer', 'Add an intern', 'Finish building the team']
-    });
+    prompts = new Questions(prompts)
+        .addMenu(['Add an engineer', 'Add an intern', 'Finish building the team'])
+        .value();
+
     return prompts;
 }
 
