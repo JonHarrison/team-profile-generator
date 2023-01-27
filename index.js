@@ -10,6 +10,7 @@ import Engineer from './lib/Engineer.js';
 import Intern from './lib/Intern.js';
 import { render } from './src/page-template.js';
 import Questions from './lib/Questions.js';
+import Validation from './lib/Validation.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,14 +20,16 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 function makeQuestions(role = 'Manager') {
 
+    const validation = new Validation();
+
     // common questions
     let prompts = new Questions()
         // name - validate as a string
-        .addQuestion('name', `What is the ${role}'s name?`, name => /[a-zA-Z]/gi.test(name))
+        .addQuestion('name', `What is the ${role}'s name?`, validation.alphanumeric )
         // id - validate as a number
-        .addQuestion('id', 'What is their employee ID?', id => /[0-9]/gi.test(id))
+        .addQuestion('id', 'What is their employee ID?', validation.numeric )
         // email - validate as an email address
-        .addQuestion('email', 'What is their email address?', email => /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(email))
+        .addQuestion('email', 'What is their email address?', validation.email )
         .this();
 
     // role specific questions
@@ -34,19 +37,19 @@ function makeQuestions(role = 'Manager') {
         case 'Manager':
             prompts
                 // office - validate as a string
-                .addQuestion('office', 'What is their office number?', val => /[a-zA-Z0-9]/gi.test(val))
+                .addQuestion('office', 'What is their office number?', validation.alphanumeric )
                 .this();
             break;
         case 'Engineer':
             prompts
                 // github - validate as a string
-                .addQuestion('github', 'What is their GitHub username?', val => /[a-zA-Z0-9]/gi.test(val))
+                .addQuestion('github', 'What is their GitHub username?', validation.alphanumeric )
                 .this();
             break;
         case 'Intern':
             prompts
                 // school - validate as a string
-                .addQuestion('school', 'What is their school?', val => /[a-zA-Z0-9]/gi.test(val))
+                .addQuestion('school', 'What is their school?', validation.alphanumeric )
                 .this();
             break;
         default:
