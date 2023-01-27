@@ -105,3 +105,12 @@ async function addEmployee(role = 'Manager') {
             }
         });
 }
+
+// function to write team.html file
+function writeToFile(data) {
+    (async () => {
+        await fs.writeFile(outputPath, data, (err) => {
+            if (err) console.error(err);
+        })
+    })();
+}
