@@ -101,6 +101,7 @@ const render = (team) => {
 	.card {
 		margin: 10px;
 		background-color: rgb(246,247,249);
+		box-shadow: 5px 5px 10px grey;
 	}
 	.card-header {
 		background-color: rgb(0,119,247);
