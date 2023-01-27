@@ -119,8 +119,10 @@ function writeToFile(data) {
 (async function init() {
     addEmployee()
         .then((response) => {
-            const output = render(employees);
-            writeToFile(output);
+            return render(employees);
+        })
+        .then((html) => {
+            writeToFile(html);
         })
         .then(() => console.log(`Successfully written to ${outputPath}`))
         .catch((error) => {
