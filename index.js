@@ -114,3 +114,23 @@ function writeToFile(data) {
         })
     })();
 }
+
+// function to initialize program
+(async function init() {
+    addEmployee()
+        .then((response) => {
+            const output = render(employees);
+            writeToFile(output);
+        })
+        .then(() => console.log(`Successfully written to ${outputPath}`))
+        .catch((error) => {
+            if (error.isTtyError) {
+                // Prompt couldn't be rendered in the current environment
+            } else {
+                // Something else went wrong
+                console.log(error);
+            }
+        });
+
+}
+)();
