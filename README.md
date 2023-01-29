@@ -52,7 +52,8 @@ npm test
 
 ## Example
 
-[Team image](./assets/example/team.png)
+![Team.html image](./assets/example/team.png)
+![Team.html image](https://user-images.githubusercontent.com/1043077/215354832-95929df6-515f-48a6-b6a2-691c8b803d39.png)
 
 ## Technologies Used
 
