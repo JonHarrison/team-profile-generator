@@ -34,7 +34,7 @@ npm install
 ## Usage
 Run from a console using
 ```bash
-node index.js
+npm start
 ```
 
 ## License
